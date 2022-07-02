@@ -1,11 +1,13 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import MainLayout from "./components/mainLayout/MainLayout";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      Book Keeping
-    </div>
+    <BrowserRouter>
+      <MainLayout />
+    </BrowserRouter>
   );
 }
 
