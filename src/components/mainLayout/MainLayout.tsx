@@ -16,6 +16,8 @@ const { Sider, Content } = Layout;
 const { Item } = Menu;
 
 const MainLayout: FC = () => {
+  const { pathname } = useLocation();
+
   // 获取上层Provider所传递的state和dispatch
   const { state, dispatch } = useContext(Context);
 
@@ -27,7 +29,6 @@ const MainLayout: FC = () => {
     dispatch(updateMonth(month));
   };
 
-  const { pathname } = useLocation();
   return (
     <Layout className="app">
       <Sider className="sider" theme="light" collapsible>
@@ -43,6 +44,7 @@ const MainLayout: FC = () => {
       </Sider>
       <Content className="content">
         <div className={"header"}>
+          <Logo size={"large"} />
           <div className={"header-category"}>
             <Statistic
               title={"请选择月份"}
