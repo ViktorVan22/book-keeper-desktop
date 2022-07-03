@@ -1,16 +1,32 @@
-import { DatePicker, Layout, Menu, Statistic } from "antd";
-import { FC } from "react";
+import { Layout, Menu, Statistic } from "antd";
+import { Moment } from "moment";
+import { FC, useContext } from "react";
 import { renderRoutes } from "react-router-config";
 import { Link, useLocation } from "react-router-dom";
+import { getSummary } from "../../services/recordHelper";
 import { ROUTE_CONFIG } from "../../services/router";
 import Icon from "../icon/Icon";
+import LocaleDatePicker from "../localeDatePicker/LocaleDatePicker";
 import Logo from "../logo/Logo";
+import { Context } from "../provider/Provider";
+import { updateMonth } from "../provider/reducer/actions";
 import "./MainLayout.css";
 
 const { Sider, Content } = Layout;
 const { Item } = Menu;
 
 const MainLayout: FC = () => {
+  // 获取上层Provider所传递的state和dispatch
+  const { state, dispatch } = useContext(Context);
+
+  // 使用之前已经定义的方法计算总收入和总支出
+  const monthlySummary = getSummary(state.monthlyRecords);
+
+  // 在更改所选月份后更改全局状态
+  const onMonthChange = (month: Moment) => {
+    dispatch(updateMonth(month));
+  };
+
   const { pathname } = useLocation();
   return (
     <Layout className="app">
@@ -27,14 +43,21 @@ const MainLayout: FC = () => {
       </Sider>
       <Content className="content">
         <div className={"header"}>
-          <Logo size={"large"} />
           <div className={"header-category"}>
             <Statistic
               title={"请选择月份"}
-              valueRender={() => <DatePicker picker={"month"} />}
+              valueRender={() => (
+                <LocaleDatePicker
+                  value={state.month}
+                  onChange={onMonthChange}
+                />
+              )}
             />
-            <Statistic title={"总收入"} value={10000} />
-            <Statistic title={"总支出"} value={5000} />
+            <Statistic title={"总收入"} value={monthlySummary.totalIncome} />
+            <Statistic
+              title={"总支出"}
+              value={monthlySummary.totalExpenditure}
+            />
           </div>
         </div>
         <div className="body">{renderRoutes(ROUTE_CONFIG)}</div>
