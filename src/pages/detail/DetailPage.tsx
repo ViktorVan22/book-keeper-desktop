@@ -1,7 +1,9 @@
 import React, { FC } from "react";
+import { IconButton } from "../../components/icon/Icon";
 import { groupDailyRecords } from "../../services/recordHelper";
 import DailyRecords from "./components/dailyRecords/DailyRecords";
 import { RecordType } from "./components/record/Record";
+import "./DetailPage.css";
 
 const mockRecordList = [
   {
@@ -47,6 +49,13 @@ const DetailPage: FC = () => {
   const groupedDailyRecords = groupDailyRecords(mockRecordList);
   return (
     <div className="detail-page">
+      <div className={"detail-page-header"}>
+        <IconButton
+          icon={"icon-huabanfuben"}
+          className={"detail-page-add-btn"}
+          onClick={() => console.log("add")}
+        />
+      </div>
       <div className="detail-page-content">
         {groupedDailyRecords.map(daily => (
           <DailyRecords key={daily.timeStamp} {...daily} />
