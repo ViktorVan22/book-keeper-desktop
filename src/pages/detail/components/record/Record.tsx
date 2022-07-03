@@ -17,9 +17,18 @@ export interface RecordItem {
   remark?: string; //条目备注信息，可选
 }
 
-interface RecordProps extends RecordItem {}
+interface RecordProps extends RecordItem {
+  onOpenUpdateModal: (id: number) => void;
+}
 
-const Record: React.FC<RecordProps> = ({ type, name, price, remark }) => {
+const Record: React.FC<RecordProps> = ({
+  id,
+  type,
+  name,
+  price,
+  remark,
+  onOpenUpdateModal,
+}) => {
   const icon = getIconByName(type, name);
 
   return (
@@ -35,7 +44,7 @@ const Record: React.FC<RecordProps> = ({ type, name, price, remark }) => {
       <div className={"record-action"}>
         <IconButton
           icon={"icon-bianji"}
-          onClick={() => console.log("update")}
+          onClick={() => onOpenUpdateModal(id)}
         />
         <IconButton
           icon={"icon-shanchu"}

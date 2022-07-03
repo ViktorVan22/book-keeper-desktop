@@ -3,7 +3,9 @@ import { GroupedDailyRecords } from "../../../../services/recordHelper";
 import Record, { RecordItem } from "../record/Record";
 import "./DailyRecords.css";
 
-interface DailyRecordsProps extends GroupedDailyRecords {}
+interface DailyRecordsProps extends GroupedDailyRecords {
+  onOpenUpdateModal: (id: number) => void;
+}
 
 // DailyRecord接受一组 records信息，
 // 且这些records日期均在同一天，且是经过排序后的结果
@@ -11,6 +13,7 @@ const DailyRecords: React.FC<DailyRecordsProps> = ({
   records,
   summary,
   timeStamp,
+  onOpenUpdateModal,
 }) => {
   return (
     <div className={"daily-records"}>
@@ -31,7 +34,11 @@ const DailyRecords: React.FC<DailyRecordsProps> = ({
       </div>
       <div className={"records"}>
         {records.map(record => (
-          <Record key={record.timeStamp} {...record} />
+          <Record
+            key={record.timeStamp}
+            {...record}
+            onOpenUpdateModal={onOpenUpdateModal}
+          />
         ))}
       </div>
     </div>

@@ -1,14 +1,11 @@
 import { Form, Input, message, Modal, Tabs } from "antd";
 import classNames from "classnames";
-import { Moment } from "moment";
-import { FC, useReducer } from "react";
-import { EXPENDITURE_ICON_LIST, INCOME_ICON_LIST } from "../../constants";
-import {
-  RecordItem,
-  RecordType,
-} from "../../pages/detail/components/record/Record";
-import { IconButton } from "../icon/Icon";
-import LocaleDatePicker from "../localeDatePicker/LocaleDatePicker";
+import moment, { Moment } from "moment";
+import { FC, useEffect, useReducer } from "react";
+import { EXPENDITURE_ICON_LIST, INCOME_ICON_LIST } from "../../../../constants";
+import { RecordItem, RecordType } from "../record/Record";
+import { IconButton } from "../../../../components/icon/Icon";
+import LocaleDatePicker from "../../../../components/localeDatePicker/LocaleDatePicker";
 import "./RecordModal.css";
 
 const { Item, ErrorList } = Form;
@@ -17,8 +14,11 @@ export type NewRecordItem = Omit<RecordItem, "id">;
 
 interface RecordModalProps {
   visible: boolean;
+  updateRecord?: RecordItem; // 添加updateRecord属性，当新建时，该属性为undefined
   onClose: () => void; //定义关闭弹出框的回调方法
-  onAddRecord: (record: NewRecordItem) => void;
+  onProcessRecord:
+    | ((record: NewRecordItem) => void)
+    | ((record: RecordItem) => void); // 替换原来的onAddRecord属性，应该此时可能是新建或者修改
 }
 
 // 定义受控组件所有的values类型
@@ -28,8 +28,9 @@ interface Values extends Omit<RecordItem, "id" | "timeStamp"> {
 
 const RecordModal: FC<RecordModalProps> = ({
   visible,
+  updateRecord,
   onClose,
-  onAddRecord,
+  onProcessRecord,
 }) => {
   const [values, dispatch] = useReducer(
     (state: Values, updated: Partial<Values>) => ({ ...state, ...updated }),
@@ -63,16 +64,40 @@ const RecordModal: FC<RecordModalProps> = ({
       message.error("请输入金额");
     }
     message.success("创建成功");
-    onAddRecord(getNewRecordItem(values));
+    onProcessRecord(normalizeValues(values) as RecordItem);
     onClose();
   }
 
-  //处理收集的数据
-  function getNewRecordItem({ month, price, ...props }: Values): NewRecordItem {
+  // 将getNewRecordItem改名为normalizedValues，
+  // 用于处理数据并合并updateRecord数据，主要是为了使用其id属性
+  function normalizeValues({
+    month,
+    price,
+    ...props
+  }: Values): NewRecordItem | RecordItem {
     const timeStamp = month.valueOf();
     const normalizedPrice = Math.abs(values.price);
-    return { ...props, timeStamp, price: normalizedPrice };
+    return { ...updateRecord, ...props, timeStamp, price: normalizedPrice };
   }
+
+  // 添加useEffect 用于打开弹出框时初始化数据
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+    if (updateRecord) {
+      const { id, timeStamp, ...props } = updateRecord;
+      dispatch({ ...props, month: moment(timeStamp) });
+    } else {
+      dispatch({
+        type: RecordType.Expenditure,
+        month: moment(),
+        name: "",
+        price: undefined,
+        remark: "",
+      });
+    }
+  }, [visible]);
 
   return (
     <Modal

@@ -20,7 +20,11 @@ export const updateMonth = (month: Moment) =>
 export const addRecord = (record: RecordItem) =>
   ({ type: Action.ADD_RECORD, record } as const);
 
+export const updateRecord = (record: RecordItem) =>
+  ({ type: Action.UPDATE_RECORD, record } as const);
+
 // 获取action函数返回值的类型
 export type ActionType =
   | ReturnType<typeof addRecord>
-  | ReturnType<typeof updateMonth>;
+  | ReturnType<typeof updateMonth>
+  | ReturnType<typeof updateRecord>;

@@ -68,6 +68,13 @@ export const reducer = (state: State, action: ActionType) => {
         ...state,
         month: action.month,
       };
+    case Action.UPDATE_RECORD:
+      return {
+        ...state,
+        monthlyRecords: state.monthlyRecords.map(i =>
+          i.id === action.record.id ? action.record : i
+        ),
+      };
     default:
       return state;
   }
