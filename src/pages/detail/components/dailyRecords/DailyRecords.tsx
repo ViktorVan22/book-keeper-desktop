@@ -5,6 +5,7 @@ import "./DailyRecords.css";
 
 interface DailyRecordsProps extends GroupedDailyRecords {
   onOpenUpdateModal: (id: number) => void;
+  onDeleteRecord: (id: number) => void;
 }
 
 // DailyRecord接受一组 records信息，
@@ -14,6 +15,7 @@ const DailyRecords: React.FC<DailyRecordsProps> = ({
   summary,
   timeStamp,
   onOpenUpdateModal,
+  onDeleteRecord,
 }) => {
   return (
     <div className={"daily-records"}>
@@ -38,6 +40,7 @@ const DailyRecords: React.FC<DailyRecordsProps> = ({
             key={record.timeStamp}
             {...record}
             onOpenUpdateModal={onOpenUpdateModal}
+            onDeleteRecord={onDeleteRecord}
           />
         ))}
       </div>

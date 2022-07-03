@@ -75,6 +75,13 @@ export const reducer = (state: State, action: ActionType) => {
           i.id === action.record.id ? action.record : i
         ),
       };
+    case Action.DELETE_RECORD:
+      return {
+        ...state,
+        monthlyRecords: state.monthlyRecords.filter(
+          item => item.id !== action.recordId
+        ),
+      };
     default:
       return state;
   }

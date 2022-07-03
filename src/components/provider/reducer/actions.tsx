@@ -23,8 +23,12 @@ export const addRecord = (record: RecordItem) =>
 export const updateRecord = (record: RecordItem) =>
   ({ type: Action.UPDATE_RECORD, record } as const);
 
+export const deleteRecord = (recordId: number) =>
+  ({ type: Action.DELETE_RECORD, recordId } as const);
+
 // 获取action函数返回值的类型
 export type ActionType =
   | ReturnType<typeof addRecord>
   | ReturnType<typeof updateMonth>
-  | ReturnType<typeof updateRecord>;
+  | ReturnType<typeof updateRecord>
+  | ReturnType<typeof deleteRecord>;

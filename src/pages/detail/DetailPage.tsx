@@ -3,6 +3,7 @@ import { IconButton } from "../../components/icon/Icon";
 import { Context } from "../../components/provider/Provider";
 import {
   addRecord,
+  deleteRecord,
   updateRecord,
 } from "../../components/provider/reducer/actions";
 import RecordModal, {
@@ -40,6 +41,10 @@ const DetailPage: FC = () => {
     setVisible(true);
   };
 
+  const onDeleteRecord = (recordId: number) => {
+    dispatch(deleteRecord(recordId));
+  };
+
   // 如果updateRecordId不为空，则找到目标record
   const target = updateRecordId
     ? state.monthlyRecords.find(i => i.id === updateRecordId)
@@ -60,6 +65,7 @@ const DetailPage: FC = () => {
             key={daily.timeStamp}
             {...daily}
             onOpenUpdateModal={onOpenUpdateModal}
+            onDeleteRecord={onDeleteRecord}
           />
         ))}
       </div>

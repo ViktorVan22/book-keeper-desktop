@@ -1,3 +1,4 @@
+import { Popconfirm } from "antd";
 import Icon, { IconButton } from "../../../../components/icon/Icon";
 import { getIconByName } from "../../../../services/iconSelector";
 import "./Record.css";
@@ -19,6 +20,7 @@ export interface RecordItem {
 
 interface RecordProps extends RecordItem {
   onOpenUpdateModal: (id: number) => void;
+  onDeleteRecord: (id: number) => void;
 }
 
 const Record: React.FC<RecordProps> = ({
@@ -28,6 +30,7 @@ const Record: React.FC<RecordProps> = ({
   price,
   remark,
   onOpenUpdateModal,
+  onDeleteRecord,
 }) => {
   const icon = getIconByName(type, name);
 
@@ -46,10 +49,21 @@ const Record: React.FC<RecordProps> = ({
           icon={"icon-bianji"}
           onClick={() => onOpenUpdateModal(id)}
         />
-        <IconButton
-          icon={"icon-shanchu"}
-          onClick={() => console.log("delete")}
-        />
+        {/* 使用PopConfirm确认 */}
+        <Popconfirm
+          placement="topRight"
+          okText="确认"
+          cancelText="取消"
+          title={"您确认想删除这条记录吗？"}
+          onConfirm={() => {
+            onDeleteRecord(id);
+          }}
+        >
+          <IconButton
+            icon={"icon-shanchu"}
+            onClick={() => console.log("delete")}
+          />
+        </Popconfirm>
       </div>
     </div>
   );
