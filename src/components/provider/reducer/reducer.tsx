@@ -57,6 +57,12 @@ export const defaultState: State = {
 
 export const reducer = (state: State, action: ActionType) => {
   switch (action.type) {
+    case Action.ADD_RECORD:
+      return {
+        ...state,
+        monthlyRecords: state.monthlyRecords.concat(action.record),
+      };
+
     case Action.UPDATE_MONTH:
       return {
         ...state,
