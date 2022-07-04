@@ -7,22 +7,29 @@ export enum DateFormat {
   Day = "D", // 将时间戳转变为该月的第多少天，如1, 2, 3, ..., 31
 }
 
+// 东八区相对于UTC需要加8个小时
+const TIMEZONE_OFFSET = 480;
+
 export const formatTimeStamp = (
   timeStamp: number,
   format = DateFormat.YEAR_MONTH_DAY
 ) => {
-  return moment(timeStamp).format(format); // 调用 moment 的 format 方法对时间戳进行格式化
+  return moment(timeStamp).utcOffset(TIMEZONE_OFFSET).format(format); // 调用 moment 的 format 方法对时间戳进行格式化
 };
 
 export const getMonthRange = (month: Moment) => {
-  const start = moment(month).startOf("month").valueOf();
-  const end = moment(month).endOf("month").valueOf();
+  const start = moment(month)
+    .utcOffset(TIMEZONE_OFFSET)
+    .startOf("month")
+    .valueOf();
+  const end = moment(month).utcOffset(TIMEZONE_OFFSET).endOf("month").valueOf();
   return [start, end];
 };
 
 export const isSameMonth = (timeStamp: number, currentMonth: Moment) => {
-  const month = moment(timeStamp);
+  const month = moment(timeStamp).utcOffset(TIMEZONE_OFFSET);
   return (
-    month.isSame(currentMonth, "year") && month.isSame(currentMonth, "month")
+    month.isSame(currentMonth.utcOffset(TIMEZONE_OFFSET), "year") &&
+    month.isSame(currentMonth.utcOffset(TIMEZONE_OFFSET), "month")
   );
 };
