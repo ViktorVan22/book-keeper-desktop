@@ -1,9 +1,10 @@
 import { groupBy, map, orderBy, reduce } from "lodash";
+import { Moment } from "moment";
 import {
   RecordItem,
   RecordType,
 } from "./../pages/detail/components/record/Record";
-import { formatTimeStamp } from "./dateHelper";
+import { DateFormat, formatTimeStamp } from "./dateHelper";
 
 // 定义 Summary 类型，该类型包含总支出，总收入两个字段
 export interface Summary {
@@ -58,4 +59,31 @@ export const groupDailyRecords = (
     ["timeStamp"],
     ["desc"]
   );
+};
+
+// DailySummary在Summary的基础上多了date信息
+export type DailySummary = Summary & { date: number };
+
+export const getDailySummaryInMonth = (
+  records: RecordItem[],
+  month: Moment
+): DailySummary[] => {
+  // 获取当月一共有多少天
+  const daysInMonth = month.daysInMonth();
+
+  // 按天统计已存在的记录
+  const resultOfPayment = groupDailyRecords(records).map(d => ({
+    // 将时间戳解析成当日第几天
+    date: parseInt(formatTimeStamp(d.timeStamp, DateFormat.Day)),
+    totalExpenditure: d.summary.totalExpenditure,
+    totalIncome: d.summary.totalIncome,
+  }));
+
+  const result = [];
+  // 遍历当月每一天，如果该天没有统计记录，则补0；否则使用前一步已统计的结果
+  for (let i = 1; i <= daysInMonth; i++) {
+    const payment = resultOfPayment.find(d => d.date === i);
+    result.push(payment || { date: i, totalExpenditure: 0, totalIncome: 0 });
+  }
+  return result;
 };

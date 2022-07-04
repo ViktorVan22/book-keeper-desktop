@@ -1,27 +1,25 @@
+import { useContext } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Context } from "../../components/provider/Provider";
+import { getDailySummaryInMonth } from "../../services/recordHelper";
+import LineChartInMonth from "./components/lineChart/LineChartInMonth";
+import "./ChartPage.css";
 
 const ChartPage: React.FC = () => {
-  // 定义数据
-  const data = [
-    { name: "a", uv: 200 },
-    { name: "b", uv: 100 },
-    { name: "c", uv: 300 },
-    { name: "d", uv: 240 },
-  ];
+  const {
+    state: { monthlyRecords, month },
+  } = useContext(Context);
+
+  const dailySummaryInMonth = getDailySummaryInMonth(monthlyRecords, month);
 
   return (
     <div>
-      <LineChart
-        width={600}
-        height={300}
-        data={data}
-        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-      >
-        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="name" />
-        <YAxis />
-      </LineChart>
+      <div className={"chart-page"}>
+        <div className={"chart-page__header"}></div>
+        <div className={"chart-page__content"}>
+          <LineChartInMonth title={"本月收支情况"} data={dailySummaryInMonth} />
+        </div>
+      </div>
     </div>
   );
 };

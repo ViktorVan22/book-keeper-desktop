@@ -4,6 +4,7 @@ import "moment/locale/zh-cn"; // 本地化，moment 默认语言为英语
 export enum DateFormat {
   MONTH_DAYOFWEEK = "MMMDo dddd", // 格式化日期的结构为 月 日 星期
   YEAR_MONTH_DAY = "YYYY-MM-DD", // 格式化日期的结构为 年 月 日
+  Day = "D", // 将时间戳转变为该月的第多少天，如1, 2, 3, ..., 31
 }
 
 export const formatTimeStamp = (
