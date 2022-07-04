@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { DatePicker } from "antd";
 import moment, { Moment } from "moment";
-import locale from "antd/es/date-picker/locale/zh_CN"; // 引入中文配置
+// jest不会编译node_modules文件中的内容，所以无法正确识别es文件中的export语法
+import locale from "antd/lib/date-picker/locale/zh_CN"; // 引入中文配置
 import "./LocaleDatePicker.css";
 
 interface MonthPickerProps {
