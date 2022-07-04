@@ -87,3 +87,31 @@ export const getDailySummaryInMonth = (
   }
   return result;
 };
+
+export interface TypeSummary {
+  name: string;
+  total: number;
+}
+
+export const getTypeSummaryInMonth = (records: RecordItem[]) => {
+  // 分别统计支出分类情况以及收入分类情况
+  const incomeSummary: TypeSummary[] = [];
+  const expenditureSummary: TypeSummary[] = [];
+
+  records.forEach(record => {
+    // 根据当前记录的消费类型，获取需要列入统计的数组
+    const targetList =
+      record.type === RecordType.Income ? incomeSummary : expenditureSummary;
+
+    // 查找是否已存在该类型数据，已存在则总数相加，不存在则新建
+    const targetType = targetList.find(item => item.name === record.name);
+
+    if (targetType) {
+      targetType.total += record.price;
+    } else {
+      targetList.push({ name: record.name, total: record.price });
+    }
+  });
+
+  return { incomeSummary, expenditureSummary };
+};

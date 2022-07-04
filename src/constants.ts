@@ -156,3 +156,22 @@ interface Icon {
       icon: 'icon-express',
     },
   ]
+
+  export const COLOR_PALETTE=[
+    '#8884d8',
+  '#8dd1e1',
+  '#82ca9d',
+  '#a4de6c',
+  '#d0ed57',
+  '#83a6ed',
+  '#3dccc7',
+  '#da627d',
+  '#ef7674',
+  '#bdfffd',
+  '#05668d',
+  '#028090',
+  '#74c69d',
+  '#accbe1',
+  '#536b78',
+  '#f5bc00',
+  ]

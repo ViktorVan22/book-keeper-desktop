@@ -1,9 +1,13 @@
 import { useContext } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import { Context } from "../../components/provider/Provider";
-import { getDailySummaryInMonth } from "../../services/recordHelper";
+import {
+  getDailySummaryInMonth,
+  getTypeSummaryInMonth,
+} from "../../services/recordHelper";
 import LineChartInMonth from "./components/lineChart/LineChartInMonth";
 import "./ChartPage.css";
+import PieChartInMonth from "./components/pieChart/PieChartInMonth";
 
 const ChartPage: React.FC = () => {
   const {
@@ -12,12 +16,17 @@ const ChartPage: React.FC = () => {
 
   const dailySummaryInMonth = getDailySummaryInMonth(monthlyRecords, month);
 
+  const { incomeSummary, expenditureSummary } =
+    getTypeSummaryInMonth(monthlyRecords);
+
   return (
     <div>
       <div className={"chart-page"}>
         <div className={"chart-page__header"}></div>
         <div className={"chart-page__content"}>
           <LineChartInMonth title={"本月收支情况"} data={dailySummaryInMonth} />
+          <PieChartInMonth title={"支出情况"} data={expenditureSummary} />
+          <PieChartInMonth title={"收入情况"} data={incomeSummary} />
         </div>
       </div>
     </div>
