@@ -13,6 +13,11 @@ import { groupDailyRecords } from "../../services/recordHelper";
 import DailyRecords from "./components/dailyRecords/DailyRecords";
 import "./DetailPage.css";
 import { RecordItem } from "./components/record/Record";
+import {
+  createNewRecordAsync,
+  deleteRecordAsync,
+  updateRecordAsync,
+} from "../../components/provider/reducer/asyncActions";
 
 const DetailPage: FC = () => {
   const [updateRecordId, setUpdateRecordId] = useState<number>();
@@ -26,13 +31,14 @@ const DetailPage: FC = () => {
     setVisible(!visible);
   };
 
-  //添加新建记录方法
+  //添加新建记录方法，使用异步action
   const onAddRecord = (record: NewRecordItem) => {
-    dispatch(addRecord({ ...record, id: record.timeStamp }));
+    dispatch(createNewRecordAsync(record));
   };
 
   const onUpdateRecord = (record: RecordItem) => {
-    dispatch(updateRecord(record));
+    // 使用异步action
+    dispatch(updateRecordAsync(record));
   };
 
   // 点击修改按钮的处理方法
@@ -42,7 +48,8 @@ const DetailPage: FC = () => {
   };
 
   const onDeleteRecord = (recordId: number) => {
-    dispatch(deleteRecord(recordId));
+    // 使用异步action
+    dispatch(deleteRecordAsync(recordId));
   };
 
   // 如果updateRecordId不为空，则找到目标record

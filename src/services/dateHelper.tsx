@@ -12,3 +12,16 @@ export const formatTimeStamp = (
 ) => {
   return moment(timeStamp).format(format); // 调用 moment 的 format 方法对时间戳进行格式化
 };
+
+export const getMonthRange = (month: Moment) => {
+  const start = moment(month).startOf("month").valueOf();
+  const end = moment(month).endOf("month").valueOf();
+  return [start, end];
+};
+
+export const isSameMonth = (timeStamp: number, currentMonth: Moment) => {
+  const month = moment(timeStamp);
+  return (
+    month.isSame(currentMonth, "year") && month.isSame(currentMonth, "month")
+  );
+};
