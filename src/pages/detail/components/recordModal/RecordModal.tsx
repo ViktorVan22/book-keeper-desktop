@@ -1,4 +1,4 @@
-import { Form, Input, message, Modal, Tabs } from "antd";
+import { Input, message, Modal, Tabs } from "antd";
 import classNames from "classnames";
 import moment, { Moment } from "moment";
 import { FC, useEffect, useReducer } from "react";
@@ -7,8 +7,6 @@ import { RecordItem, RecordType } from "../record/Record";
 import { IconButton } from "../../../../components/icon/Icon";
 import LocaleDatePicker from "../../../../components/localeDatePicker/LocaleDatePicker";
 import "./RecordModal.css";
-
-const { Item, ErrorList } = Form;
 
 export type NewRecordItem = Omit<RecordItem, "id">;
 
@@ -60,8 +58,9 @@ const RecordModal: FC<RecordModalProps> = ({
       message.error("请选择日期");
       return;
     }
-    if (!values.price) {
+    if (!values.price || values.price === 0) {
       message.error("请输入金额");
+      return;
     }
     message.success("创建成功");
     onProcessRecord(normalizeValues(values) as RecordItem);
@@ -97,6 +96,7 @@ const RecordModal: FC<RecordModalProps> = ({
         remark: "",
       });
     }
+    // eslint-disable-next-line
   }, [visible]);
 
   return (
@@ -161,7 +161,7 @@ const RecordModal: FC<RecordModalProps> = ({
             <Input
               type={"number"}
               value={values.price}
-              onChange={e => onPriceChange(parseInt(e.target.value))}
+              onChange={e => onPriceChange(parseFloat(e.target.value))}
             />
           </div>
           <div className={"record-modal__list__item"}>

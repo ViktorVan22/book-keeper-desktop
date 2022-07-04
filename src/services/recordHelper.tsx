@@ -19,8 +19,11 @@ export const getSummary = (records: RecordItem[]): Summary => {
     (summary, record) => {
       if (record.type === RecordType.Income) {
         summary.totalIncome += record.price;
+        summary.totalIncome = Math.round(summary.totalIncome * 100) / 100;
       } else {
         summary.totalExpenditure += record.price;
+        summary.totalExpenditure =
+          Math.round(summary.totalExpenditure * 100) / 100;
       }
       return summary;
     },

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import { Context } from "../../components/provider/Provider";
 import {
   getDailySummaryInMonth,

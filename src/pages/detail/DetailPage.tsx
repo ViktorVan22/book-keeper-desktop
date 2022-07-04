@@ -1,11 +1,6 @@
 import { FC, useContext, useState } from "react";
 import { IconButton } from "../../components/icon/Icon";
 import { Context } from "../../components/provider/Provider";
-import {
-  addRecord,
-  deleteRecord,
-  updateRecord,
-} from "../../components/provider/reducer/actions";
 import RecordModal, {
   NewRecordItem,
 } from "./components/recordModal/RecordModal";
