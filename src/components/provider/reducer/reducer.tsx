@@ -1,8 +1,5 @@
 import moment, { Moment } from "moment";
-import {
-  RecordItem,
-  RecordType,
-} from "../../../pages/detail/components/record/Record";
+import { RecordItem } from "../../../pages/detail/components/record/Record";
 import { isSameMonth } from "../../../services/dateHelper";
 import { Action, ActionType } from "./actions";
 
