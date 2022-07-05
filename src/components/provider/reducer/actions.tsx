@@ -15,7 +15,7 @@ export const updateMonth = (month: Moment) =>
   ({
     type: Action.UPDATE_MONTH,
     month,
-  } as const); // as const 不能省
+  } as const); // as const 不能省：因为TS通过type做类型判断的前提是type不可修改
 
 export const addRecord = (record: RecordItem) =>
   ({ type: Action.ADD_RECORD, record } as const);
