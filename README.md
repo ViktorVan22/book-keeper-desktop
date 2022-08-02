@@ -1,7 +1,8 @@
 # book-keeper-desktop
 
 适用于电脑端的记账 Web App，请搭配后端代码食用。  
-预览动图：  
+预览动图：
+
 ![screen1.gif](https://github.com/ViktorVan22/book-keeper-desktop/blob/main/public/screen1.gif)
 
 ![screen2.gif](https://github.com/ViktorVan22/book-keeper-desktop/blob/main/public/screen2.gif)
