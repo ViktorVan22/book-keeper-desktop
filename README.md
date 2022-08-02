@@ -1,4 +1,13 @@
-# Getting Started with Create React App
+# book-keeper-desktop
+
+适用于电脑端的记账 Web App，请搭配后端代码食用。
+预览动图：
+![screen1.gif]
+(D:\myFrontendProjects\book-keeping\app\public\screen1.gif)
+![screen2.gif](D:\myFrontendProjects\book-keeping\app\public\screen2.gif)
+![screen3.gif](D:\myFrontendProjects\book-keeping\app\public\screen3.gif)
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
